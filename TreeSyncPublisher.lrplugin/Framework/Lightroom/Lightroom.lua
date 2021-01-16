@@ -432,21 +432,7 @@ end
 
 
 function Lightroom:computeActivePresetDir()
-    local presetFolders = LrApplication.developPresetFolders()
-    for i, v in ipairs( presetFolders ) do
-        if not v:getPath():find( "[/\\]Adobe Photoshop Lightroom" ) then
-            local candidate = LrPathUtils.parent( LrPathUtils.parent( v:getPath() ) )
-            local leafName = LrPathUtils.leafName( candidate )
-            if leafName ~= "Develop.lrmodule" then -- bingo
-                Debug.pauseIf( leafName:sub( 1, 9 ) ~= "Lightroom", "Hmm..." ) -- expecting "Lightroom" or "Lightroom Settings"
-                return candidate
-            else -- unexpected entry
-                Debug.pause( "?" )
-            end
-        -- else probably a built-in dev preset.
-        end
-    end
-    return nil, "Unobtainable using develop preset folder path parsing"
+    return LrPathUtils.getStandardFilePath( 'appData' )
 end
 
 
